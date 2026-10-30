@@ -66,7 +66,9 @@ Open `http://127.0.0.1:4173/kb/incidents/4471-review/`. This compiles the actual
 and Svelte components with mdsvex, SvelteKit and the static adapter. The committed `build/`
 contains the full rendered site, CSS and browser modules, not a hand-written approximation.
 The build computes tables, chart bars, stale warnings, interactive dedupe examples and desk refs.
-The signed review renders `DR-HRY1-ZZ99` from its frontmatter signature via `RenderStamp`.
+The signed review renders its desk ref from the exact course-issued ticket in its frontmatter,
+via `RenderStamp`. This public signature is explicitly required by the challenge; it is not
+an OAuth sign-in credential. The historical replacement decision retains its original author signature.
 No public hosting account is needed: the course can read both source and rendered HTML in this repo.
 
 The export is a snapshot, not a live queue. Replacing it and rebuilding recomputes the component

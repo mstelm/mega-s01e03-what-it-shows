@@ -49,7 +49,10 @@ test('production HTML contains computed evidence and the signature-derived desk 
   assert.ok(html.includes('33'));
   assert.ok(html.includes('412'));
   assert.ok(html.includes('different causes — keep apart'));
-  assert.ok(html.includes(deskRef('mstelm / Pi / S01E03 / 2026-10-30')));
+  const source = fs.readFileSync(new URL('../src/routes/kb/incidents/4471-review/+page.svx', import.meta.url), 'utf8');
+  const signature = source.match(/^signature: '([^']+)'/m)?.[1];
+  assert.ok(signature?.startsWith('v1.'));
+  assert.ok(html.includes(deskRef(signature)));
   assert.ok(!html.includes('no desk ref:'));
   assert.ok(!html.includes('&lt;CauseTable'));
   assert.ok(html.includes('2026-10-05'));
