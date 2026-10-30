@@ -1,0 +1,43 @@
+---
+layout: runbook
+title: 'Triage: duplicate reports'
+owner: support desk
+status: accepted
+reviewed: 2026-10-30
+---
+
+<script>
+  import DedupeExplorer from '#lib/kb/DedupeExplorer.svelte';
+  import Callout from '#lib/kb/Callout.svelte';
+</script>
+
+A busy morning brings hundreds of reports about the same thing. We keep one ticket per issue
+and merge every duplicate into it, so engineering sees one thread with a count.
+
+## The rule
+
+A report is a duplicate only when it shares a **demonstrated cause** with an open ticket
+([decision 0002](/kb/decisions/0002-dedupe-by-cause), replacing the preserved decision 0001):
+
+1. Look up the tenant's locale and booking form, and check the report channel and body.
+2. Compare causes with `causeOf` and `sameCause` in `src/lib/kb/causes.ts`, then check the reproduction.
+3. Merge only into the matching cause's ticket. Count each report ID once, even in overlapping exports.
+4. For #4471, route the day-first booking-v3 form path to the hint issue; other supported day-first paths go to parser.
+5. Keep missing-tenant, unknown-cause and conflicting evidence separate for investigation.
+
+<Callout>
+Subjects and intake tags are search clues, not merge criteria. Matching subjects may have
+different causes; different subjects may have the same cause. See the reviewed incident page.
+</Callout>
+
+[Reviewed #4471 and its separate issues](/kb/incidents/4471-review).
+
+## Try it
+
+<DedupeExplorer />
+
+## When you are unsure
+
+Do not merge yet. Reproduce the failing path, confirm the tenant and channel, and ask for
+missing evidence. Preserve one-day descriptions for investigation; do not assume a timezone cause.
+Rebuild the views with new exports so the desk keeps routing new reports correctly.

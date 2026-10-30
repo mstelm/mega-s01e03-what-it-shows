@@ -1,0 +1,51 @@
+---
+layout: runbook
+title: '0002 · Duplicate reports share a demonstrated cause'
+owner: mstelm with Pi
+status: accepted
+reviewed: 2026-10-30
+signature: 'mstelm / Pi / S01E03 / 2026-10-30'
+---
+
+<script>
+  import RenderStamp from '#lib/kb/RenderStamp.svelte';
+  import DedupeExplorer from '#lib/kb/DedupeExplorer.svelte';
+</script>
+
+**Date:** 30 October 2026 · **Deciders:** mstelm with Pi
+
+**Replaces:** [0001 · Duplicates share a subject line](/kb/decisions/0001-dedupe-by-subject).
+The accepted historical record is preserved, not rewritten.
+
+## Context
+
+The [review of #4471](/kb/incidents/4471-review) shows a parser problem and a misleading
+form hint merged into one ticket. Subject lines and browser-based intake tags do not
+identify the failing path. The running explorer already distinguishes causes by tenant
+locale, form version and channel, contradicting the old subject-only rule.
+
+## Decision
+
+Merge only reports with the same demonstrated cause. Look up the tenant, verify its locale
+and booking form, and identify the report channel. Use `causeOf` and `sameCause` from
+`src/lib/kb/causes.ts` for the supported date paths; compare the report body and reproduction
+with that result. Do not use subject equality or intake tags as proof.
+
+A day-first tenant's booking-v3 form report belongs to the hint issue; its app/email report
+belongs to parser. Other supported day-first paths belong to parser. A missing tenant or
+unresolved cause stays separate pending investigation, even when subjects match.
+One-day descriptions must remain visible for reproduction rather than acquire an assumed cause.
+
+## Consequences
+
+The desk keeps one issue per demonstrated problem and counts unique report IDs, not export rows.
+It routes new reports to the corresponding parser or hint issue while this review proceeds.
+Different subjects can merge when their causes agree. Matching subjects stay separate when
+their causes differ. New or uncertain paths require investigation and may justify a new ticket.
+Rebuild the views for each new export; do not treat a static count as a live queue.
+
+## Check the rule
+
+<DedupeExplorer />
+
+<RenderStamp {signature} />

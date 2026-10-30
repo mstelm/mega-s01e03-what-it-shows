@@ -1,0 +1,29 @@
+---
+layout: runbook
+title: Support knowledge base
+owner: support desk
+status: living
+reviewed: 2026-10-30
+---
+
+<script>
+  import KbIndex from '#lib/kb/KbIndex.svelte';
+</script>
+
+What the support desk knows, kept next to the code that knows it. One desk, every product:
+`sched-prod` (calendar invites for about 300k people) and the rest. When something breaks, the reports land here first.
+
+Start with [triage](/kb/triage/dedupe) if you are new on the desk.
+
+Read the [signed #4471 review](/kb/incidents/4471-review) before handling date reports.
+Use [decision 0002](/kb/decisions/0002-dedupe-by-cause) and the updated triage guide;
+the historical subject-only decision is no longer the active rule.
+
+## Pages
+
+<KbIndex />
+
+## Writing a page
+
+Keep the words here and the logic in `src/lib`. A number that can be computed should be
+computed by a component, not typed into a paragraph.

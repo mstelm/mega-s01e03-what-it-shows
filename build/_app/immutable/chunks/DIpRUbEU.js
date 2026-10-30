@@ -1,0 +1,14 @@
+import{a as d,f as c}from"./CDGA959z.js";import"./DtUP6rTJ.js";import{D as s,i as u}from"./BmE9oLF1.js";import{l as h,s as l}from"./C1Krmm2m.js";import{R as m}from"./DVVxwEcq.js";import{R as g}from"./CqcocaJa.js";import{D as f}from"./quTJKswp.js";const e={layout:"runbook",title:"0002 · Duplicate reports share a demonstrated cause",owner:"mstelm with Pi",status:"accepted",reviewed:"2026-10-30T00:00:00.000Z",signature:"mstelm / Pi / S01E03 / 2026-10-30"},{layout:O,title:R,owner:T,status:P,reviewed:S,signature:b}=e;var v=c(`<p><strong>Date:</strong> 30 October 2026 · <strong>Deciders:</strong> mstelm with Pi</p> <p><strong>Replaces:</strong> <a href="/kb/decisions/0001-dedupe-by-subject">0001 · Duplicates share a subject line</a>.
+The accepted historical record is preserved, not rewritten.</p> <h2>Context</h2> <p>The <a href="/kb/incidents/4471-review">review of #4471</a> shows a parser problem and a misleading
+form hint merged into one ticket. Subject lines and browser-based intake tags do not
+identify the failing path. The running explorer already distinguishes causes by tenant
+locale, form version and channel, contradicting the old subject-only rule.</p> <h2>Decision</h2> <p>Merge only reports with the same demonstrated cause. Look up the tenant, verify its locale
+and booking form, and identify the report channel. Use <code>causeOf</code> and <code>sameCause</code> from <code>src/lib/kb/causes.ts</code> for the supported date paths; compare the report body and reproduction
+with that result. Do not use subject equality or intake tags as proof.</p> <p>A day-first tenant’s booking-v3 form report belongs to the hint issue; its app/email report
+belongs to parser. Other supported day-first paths belong to parser. A missing tenant or
+unresolved cause stays separate pending investigation, even when subjects match.
+One-day descriptions must remain visible for reproduction rather than acquire an assumed cause.</p> <h2>Consequences</h2> <p>The desk keeps one issue per demonstrated problem and counts unique report IDs, not export rows.
+It routes new reports to the corresponding parser or hint issue while this review proceeds.
+Different subjects can merge when their causes agree. Matching subjects stay separate when
+their causes differ. New or uncertain paths require investigation and may justify a new ticket.
+Rebuild the views for each new export; do not treat a static count as a live queue.</p> <h2>Check the rule</h2> <!> <!>`,1);function w(o,a){const n=h(a,["children","$$slots","$$events","$$legacy"]);m(o,l(()=>n,()=>e,{children:(i,y)=>{var t=v(),r=s(u(t),20);f(r,{});var p=s(r,2);g(p,{get signature(){return b}}),d(i,t)},$$slots:{default:!0}}))}const C=Object.freeze(Object.defineProperty({__proto__:null,default:w,metadata:e},Symbol.toStringTag,{value:"Module"}));export{C as _,w as a};

@@ -1,0 +1,76 @@
+---
+layout: runbook
+title: '#4471 reviewed: separate the parser and form hint'
+owner: mstelm with Pi
+status: reviewed
+reviewed: 2026-10-30
+signature: 'mstelm / Pi / S01E03 / 2026-10-30'
+---
+
+<script>
+  import IncidentReview from '#lib/kb/IncidentReview.svelte';
+  import CauseTable from '#lib/kb/CauseTable.svelte';
+  import QueueTimeline from '#lib/kb/QueueTimeline.svelte';
+  import DedupeExplorer from '#lib/kb/DedupeExplorer.svelte';
+  import RenderStamp from '#lib/kb/RenderStamp.svelte';
+</script>
+
+The [original incident page](/kb/incidents/4471) says “one issue, one fix queued.”
+Its rendered cause table contradicts that claim. The parser is the majority cause;
+the date-hint problem was merged into it and had no ticket of its own.
+These are different failure paths and need separate fixes, not just a single ticket count.
+
+## Problems and coverage
+
+<IncidentReview />
+
+### Parser: shared month-first interpretation
+
+The shared parser reads month first for day-first tenants. App and email reports,
+and forms without the booking-v3 month-first hint, follow this path.
+For example, `R-41200` from Harbour Dental reports 7 April becoming 4 July;
+`R-41205` belongs here even though intake tagged it `hint`.
+[Parser issue](https://github.com/mstelm/mega-s01e03-what-it-shows/issues/1).
+
+Use the tenant's date order or a validated unambiguous date format at the parsing boundary.
+Test ambiguous dates and day values above twelve, without depending on the reporter's browser locale.
+
+### Hint: booking-v3 advertises the wrong order
+
+For day-first tenants, booking-v3 prints `MM/DD/YYYY`, but the form reads input in
+the tenant's date order. People following the hint therefore get a different date.
+This path requires the `form` channel and booking-v3; a booking-v3 tenant's app report
+is not automatically a hint problem. `R-41230` from Copper Studio belongs here despite
+its intake `parser` tag. [Hint issue](https://github.com/mstelm/mega-s01e03-what-it-shows/issues/2).
+
+Make the displayed hint match the form's actual locale-aware reader. Test both day-first
+and month-first tenants and input entered exactly as the hint instructs.
+Fixing the shared parser alone does not fix this misleading instruction.
+
+## Recheck the desk's views
+
+These are the supplied components running against the exported data, not screenshots of prose.
+Counts belong in components so a changed export changes the result.
+
+<CauseTable ticket={4471} />
+<QueueTimeline ticket={4471} />
+
+## Stop new reports being merged incorrectly
+
+[Decision 0001](/kb/decisions/0001-dedupe-by-subject) is historical and remains unchanged.
+It is replaced by [decision 0002](/kb/decisions/0002-dedupe-by-cause).
+The [current triage guide](/kb/triage/dedupe) now requires the same demonstrated cause.
+Matching subjects can have different causes; different subjects can share one cause.
+Missing tenant evidence is a reason to investigate, not to merge.
+
+<DedupeExplorer />
+
+## Scope and limits
+
+This review covers the supplied export through 4 October, not a live desk feed.
+The original counts were observations at export time, not a promise about future arrivals.
+Keep parser and hint queues separate as the desk continues working; recompute from unique
+report IDs when new exports arrive. Reproduce the flagged one-day descriptions rather than
+claim a new root cause from wording alone.
+
+<RenderStamp {signature} />

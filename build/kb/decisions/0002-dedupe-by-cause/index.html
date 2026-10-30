@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+  <head><meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" /><link href="../../../_app/immutable/entry/start.BmI9K2mU.js" rel="modulepreload">
+		<link href="../../../_app/immutable/chunks/BmE9oLF1.js" rel="modulepreload">
+		<link href="../../../_app/immutable/chunks/BKKEuCC0.js" rel="modulepreload">
+		<link href="../../../_app/immutable/chunks/CD36Rot6.js" rel="modulepreload">
+		<link href="../../../_app/immutable/entry/app.DoXV5FDi.js" rel="modulepreload">
+		<link href="../../../_app/immutable/chunks/DyF8l7Pz.js" rel="modulepreload">
+		<link href="../../../_app/immutable/chunks/CDGA959z.js" rel="modulepreload">
+		<link href="../../../_app/immutable/chunks/C1Krmm2m.js" rel="modulepreload">
+		<link href="../../../_app/immutable/chunks/W5ZHaxgh.js" rel="modulepreload">
+		<link href="../../../_app/immutable/nodes/0.DPqkTJ3k.js" rel="modulepreload">
+		<link href="../../../_app/immutable/chunks/DsKwV2uG.js" rel="modulepreload">
+		<link href="../../../_app/immutable/nodes/5.CGAhz1kS.js" rel="modulepreload">
+		<link href="../../../_app/immutable/chunks/DIpRUbEU.js" rel="modulepreload">
+		<link href="../../../_app/immutable/chunks/DtUP6rTJ.js" rel="modulepreload">
+		<link href="../../../_app/immutable/chunks/DVVxwEcq.js" rel="modulepreload">
+		<link href="../../../_app/immutable/chunks/CqcocaJa.js" rel="modulepreload">
+		<link href="../../../_app/immutable/chunks/quTJKswp.js" rel="modulepreload">
+		<link href="../../../_app/immutable/chunks/Bsy3_F54.js" rel="modulepreload">
+		<!--e2jw2j--><!----><title>0002 · Duplicate reports share a demonstrated cause · support kb</title>
+		<link href="../../../_app/immutable/assets/runbook.BhhgOc_n.css" rel="stylesheet">
+		<link href="../../../_app/immutable/assets/RenderStamp.CMZ6TBbc.css" rel="stylesheet">
+		<link href="../../../_app/immutable/assets/DedupeExplorer.C3mwiGDj.css" rel="stylesheet"></head>
+  <body data-sveltekit-preload-data="hover"><div style="display: contents"><!--[--><!--[0--><!--[--><!--[--><div class="kb svelte-e2jw2j"><header><a class="crumb svelte-e2jw2j" href="/kb">support desk · kb</a> <h1 class="svelte-e2jw2j">0002 · Duplicate reports share a demonstrated cause</h1> <p class="meta svelte-e2jw2j"><span>owner <b>mstelm with Pi</b></span> <span class="status accepted svelte-e2jw2j">accepted</span> <span class="svelte-e2jw2j">reviewed 2026-10-30 · 0 days ago</span></p></header> <!--[-1--><!--]--> <main><p><strong>Date:</strong> 30 October 2026 · <strong>Deciders:</strong> mstelm with Pi</p> <p><strong>Replaces:</strong> <a href="/kb/decisions/0001-dedupe-by-subject">0001 · Duplicates share a subject line</a>.
+The accepted historical record is preserved, not rewritten.</p> <h2>Context</h2> <p>The <a href="/kb/incidents/4471-review">review of #4471</a> shows a parser problem and a misleading
+form hint merged into one ticket. Subject lines and browser-based intake tags do not
+identify the failing path. The running explorer already distinguishes causes by tenant
+locale, form version and channel, contradicting the old subject-only rule.</p> <h2>Decision</h2> <p>Merge only reports with the same demonstrated cause. Look up the tenant, verify its locale
+and booking form, and identify the report channel. Use <code>causeOf</code> and <code>sameCause</code> from <code>src/lib/kb/causes.ts</code> for the supported date paths; compare the report body and reproduction
+with that result. Do not use subject equality or intake tags as proof.</p> <p>A day-first tenant’s booking-v3 form report belongs to the hint issue; its app/email report
+belongs to parser. Other supported day-first paths belong to parser. A missing tenant or
+unresolved cause stays separate pending investigation, even when subjects match.
+One-day descriptions must remain visible for reproduction rather than acquire an assumed cause.</p> <h2>Consequences</h2> <p>The desk keeps one issue per demonstrated problem and counts unique report IDs, not export rows.
+It routes new reports to the corresponding parser or hint issue while this review proceeds.
+Different subjects can merge when their causes agree. Matching subjects stay separate when
+their causes differ. New or uncertain paths require investigation and may justify a new ticket.
+Rebuild the views for each new export; do not treat a static count as a live queue.</p> <h2>Check the rule</h2> <div class="try svelte-gq0h2h"><!--[--><fieldset class="svelte-gq0h2h"><legend>report A</legend> <select aria-label="tenant"><!--[--><option selected="">alder.physio</option><option>copper.studio</option><option>harbour.dental</option><option>kettle.books</option><option>lantern.row</option><option>long.table</option><option>morrow.tax</option><option>nine.lanterns</option><option>pale.harbour</option><option>ridge.clinic</option><option>stone.and.sons</option><!--]--></select> <select aria-label="channel"><!--[--><option>app</option><option>email</option><option selected="">form</option><!--]--></select> <input value="Booking on the wrong date" aria-label="subject"/> <code>hint</code></fieldset><fieldset class="svelte-gq0h2h"><legend>report B</legend> <select aria-label="tenant"><!--[--><option>alder.physio</option><option>copper.studio</option><option>harbour.dental</option><option selected="">kettle.books</option><option>lantern.row</option><option>long.table</option><option>morrow.tax</option><option>nine.lanterns</option><option>pale.harbour</option><option>ridge.clinic</option><option>stone.and.sons</option><!--]--></select> <select aria-label="channel"><!--[--><option>app</option><option>email</option><option selected="">form</option><!--]--></select> <input value="Booking on the wrong date" aria-label="subject"/> <code>parser</code></fieldset><!--]--> <p class="verdict svelte-gq0h2h">different causes — keep apart</p></div> <table><thead><tr><th>case</th><th>same subject</th><th>same cause</th></tr></thead><tbody><!--[--><tr><td>app vs email, same tenant</td><td>no</td><td class="svelte-gq0h2h dup">yes</td></tr><tr><td>same subject, same tenant, different channel</td><td>yes</td><td class="svelte-gq0h2h">no</td></tr><tr><td>same subject, same channel, different tenant</td><td>yes</td><td class="svelte-gq0h2h">no</td></tr><tr><td>different subject, same way in</td><td>no</td><td class="svelte-gq0h2h dup">yes</td></tr><tr><td>no tenant on file</td><td>yes</td><td class="svelte-gq0h2h">no</td></tr><!--]--></tbody></table><!----> <!--[0--><p class="stamp svelte-1280m42">desk ref <b class="svelte-1280m42">DR-HRY1-ZZ99</b></p><!--]--><!----><!----></main> <footer class="svelte-e2jw2j">Pages are written by people. Tables and charts are built from data at render time.</footer></div><!--]--><!----><!--]--><!--]--> <!--[-1--><!--]--><!--]-->
+			
+			<script>
+				{
+					__sveltekit_1dsvljn = {
+						base: new URL("../../..", location).pathname.slice(0, -1)
+					};
+
+					const element = document.currentScript.parentElement;
+
+					Promise.all([
+						import("../../../_app/immutable/entry/start.BmI9K2mU.js"),
+						import("../../../_app/immutable/entry/app.DoXV5FDi.js")
+					]).then(([kit, app]) => {
+						kit.start(app, element, {
+							node_ids: [0, 5],
+							data: [null,null],
+							form: null,
+							error: null
+						});
+					});
+				}
+			</script>
+		</div></body>
+</html>
