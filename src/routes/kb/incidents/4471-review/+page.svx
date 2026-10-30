@@ -2,7 +2,7 @@
 layout: runbook
 title: '#4471 reviewed: separate the parser and form hint'
 owner: mstelm with Pi
-status: reviewed
+status: closed
 reviewed: 2026-10-30
 signature: 'mstelm / Pi / S01E03 / 2026-10-30'
 ---
@@ -18,7 +18,8 @@ signature: 'mstelm / Pi / S01E03 / 2026-10-30'
 The [original incident page](/kb/incidents/4471) says “one issue, one fix queued.”
 Its rendered cause table contradicts that claim. The parser is the majority cause;
 the date-hint problem was merged into it and had no ticket of its own.
-These are different failure paths and need separate fixes, not just a single ticket count.
+These are different failure paths, not just a single ticket count. At export time they
+needed separate decisions. The later engineering update below resolves them differently.
 
 ## Problems and coverage
 
@@ -59,7 +60,9 @@ Counts belong in components so a changed export changes the result.
 
 [Decision 0001](/kb/decisions/0001-dedupe-by-subject) is historical and remains unchanged.
 It is replaced by [decision 0002](/kb/decisions/0002-dedupe-by-cause).
-The [current triage guide](/kb/triage/dedupe) now requires the same demonstrated cause.
+The [current triage guide](/kb/triage/dedupe) now requires the same demonstrated cause
+and a fresh status check before closure. The parser fix and form retirement are later outcomes,
+not evidence that both bugs were fixed.
 Matching subjects can have different causes; different subjects can share one cause.
 Missing tenant evidence is a reason to investigate, not to merge.
 
@@ -69,8 +72,14 @@ Missing tenant evidence is a reason to investigate, not to merge.
 
 This review covers the supplied export through 4 October, not a live desk feed.
 The original counts were observations at export time, not a promise about future arrivals.
-Keep parser and hint queues separate as the desk continues working; recompute from unique
-report IDs when new exports arrive. Reproduce the flagged one-day descriptions rather than
+The engineering update, checked after our first submission, says #4471 closed on 5 October:
+parser fixed, hint won't fix because booking-v3 was retired. Our parser issue therefore closes
+as completed; our hint issue closes as not planned. Completing analysis alone was not the
+correct reason for either closure.
+
+For later reports, check the current deployment and form availability before assigning an
+old cause or reopening a ticket. Keep distinct causes separate, recompute from unique IDs
+when new exports arrive, and reproduce the flagged one-day descriptions rather than
 claim a new root cause from wording alone.
 
 <RenderStamp {signature} />

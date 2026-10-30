@@ -44,6 +44,11 @@ Exported 2026-10-04 from the `support` repo, `apps/kb/` → `src/`.
 - [Replacement decision 0002](src/routes/kb/decisions/0002-dedupe-by-cause/+page.svx)
 - [Updated working triage guide](src/routes/kb/triage/dedupe/+page.svx)
 
+The later engineering update on the course page says #4471 closed on 5 October:
+parser **fixed** (`fix(dates): parse dd/mm for eu locales`), hint **won't fix** because
+booking-v3 was retired. Issue #1 closes as completed; issue #2 as not planned, not as a fix.
+The rendered review includes these outcomes separately from export-time observations.
+
 Decision 0001 is preserved byte-for-byte as the historical accepted record. The old incident
 page is marked historical and links to the review. The index links the active replacement.
 The five one-day descriptions remain visible as unresolved evidence, not a proven third cause.

@@ -24,6 +24,11 @@ A report is a duplicate only when it shares a **demonstrated cause** with an ope
 3. Merge only into the matching cause's ticket. Count each report ID once, even in overlapping exports.
 4. For #4471, route the day-first booking-v3 form path to the hint issue; other supported day-first paths go to parser.
 5. Keep missing-tenant, unknown-cause and conflicting evidence separate for investigation.
+6. Recheck current engineering status before closing or reopening. #4471 closed on 5 October:
+   parser fixed (`fix(dates): parse dd/mm for eu locales`); hint won't fix because booking-v3
+   was retired. Close the parser ticket as completed and the hint ticket as not planned.
+   The channel rules above describe the export; a new booking-v3 report after retirement
+   needs investigation, not automatic merging.
 
 <Callout>
 Subjects and intake tags are search clues, not merge criteria. Matching subjects may have

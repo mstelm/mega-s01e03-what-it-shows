@@ -52,4 +52,8 @@ test('production HTML contains computed evidence and the signature-derived desk 
   assert.ok(html.includes(deskRef('mstelm / Pi / S01E03 / 2026-10-30')));
   assert.ok(!html.includes('no desk ref:'));
   assert.ok(!html.includes('&lt;CauseTable'));
+  assert.ok(html.includes('2026-10-05'));
+  assert.ok(html.includes('fix(dates): parse dd/mm for eu locales'));
+  assert.ok(html.includes('booking-v3 form retired'));
+  assert.ok(html.includes('not planned'));
 });

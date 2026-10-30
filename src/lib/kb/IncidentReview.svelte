@@ -1,6 +1,7 @@
 <script lang="ts">
   import reports from '#lib/data/reports-4471.json';
   import notes from '#lib/data/desk-notes.json';
+  import engineering from '#lib/data/engineering-update.json';
   import { reviewReports } from '#lib/kb/review';
   import type { Report, Tenant } from '#lib/kb/causes';
   const tenants = Object.values(import.meta.glob<Tenant>('/src/lib/data/tenants/*.json', { eager: true, import: 'default' }));
@@ -8,6 +9,15 @@
   const flagged = $derived(review.merged.filter(r => notes.oneDayMove.includes(r.id)));
   const issue = { parser: 1, hint: 2 };
 </script>
+
+<h3>Engineering outcome, checked after the first submission</h3>
+<p>The <a href={engineering.source}>course engineering update</a> says #{engineering.ticket}
+  closed on {engineering.closedOn}. This is a later update, not part of the original export.</p>
+<ul>{#each Object.entries(engineering.outcomes) as [cause, outcome]}
+  <li><strong>{cause}: {outcome.status}</strong> — {outcome.reason}. GitHub closure reason: {outcome.githubReason}.</li>
+{/each}</ul>
+<p>The parser was fixed; the hint was not fixed because its form was retired. Both tickets are closed,
+  but their reasons differ. Earlier closure comments based only on finishing this analysis were premature.</p>
 
 <p><strong>{review.merged.length} unique reports, {review.groups.length} causes.</strong>
   The export has {reports.length} rows; {review.duplicateRows} repeated rows are not additional reports.
